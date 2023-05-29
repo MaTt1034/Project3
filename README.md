@@ -1,24 +1,24 @@
-# project3
+# README
 
-## Project setup
-```
-npm install
-```
+This README would normally document whatever steps are necessary to get the
+application up and running.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Things you may want to cover:
 
-### Compiles and minifies for production
-```
-npm run build
-```
+* Ruby version
 
-### Lints and fixes files
-```
-npm run lint
-```
+* System dependencies
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+* Configuration
+
+* Database creation
+
+* Database initialization
+
+* How to run the test suite
+
+* Services (job queues, cache servers, search engines, etc.)
+
+* Deployment instructions
+
+* ...
