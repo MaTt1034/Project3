@@ -7,14 +7,30 @@ namespace Project3.Views
 		{
 		}
 
-		public void ShowIndexPage(List<string> items)
+		public void IndexPage()
 		{
-			Console.WriteLine("Showing Products:");
-
-            foreach (string item in items)
-            {
-                Console.WriteLine(item);
-            }
+			// Shows all products in the database
+			// Also redirects to ShowPage(id of the product)
+			// Also redirects to NewPage()
         }
-	}
+
+		public void ShowPage()
+		{
+			// Shows the individual record
+			// Also redirects to EditPage()
+			// Also destroys the record (from controller)
+		}
+
+		public void NewPage()
+		{
+			// Contains input fields
+			// Creates a new product, adds in the DB
+		}
+
+        public void EditPage()
+        {
+            // Contains input fields
+            // Edits a product, updates DB
+        }
+    }
 }

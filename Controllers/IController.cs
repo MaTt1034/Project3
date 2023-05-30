@@ -7,8 +7,6 @@ namespace Project3.Controllers
 
 		public void Show(int id);
 
-		public void Edit(int id);
-
 		public void Create();
 
 		public void Update(int id);
