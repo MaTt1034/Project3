@@ -23,13 +23,14 @@ namespace Project3.Controllers
             _view.ShowSingle(product);
         }
 
-        public void Create(int id, string name, string description, double price)
+        public void Create()
         {
-            Product newProduct = new Product(id, name, description, price);
+            _view.DisplayNewForm();
+
+            Product newProduct = new Product(_view.ID, _view.Name, _view.Description, _view.Price);
 
             Products.Add(newProduct);
-
-            Show(newProduct.ID);
+            _view.ClearValues();
         }
 
         public void Update(int id, string? name = null, double price = -1)

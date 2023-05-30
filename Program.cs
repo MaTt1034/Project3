@@ -28,6 +28,8 @@ namespace Project3
             // Display product details
             productsController.Show(1);
 
+            productsController.Create();
+
             Console.ReadLine();
         }
     }
