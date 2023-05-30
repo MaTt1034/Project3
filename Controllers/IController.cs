@@ -1,4 +1,6 @@
 ﻿using System;
+using Project3.Models;
+
 namespace Project3.Controllers
 {
 	public interface IController
@@ -9,7 +11,7 @@ namespace Project3.Controllers
 
 		public void Create();
 
-		public void Update(int id);
+		public void Update();
 
 		public void Destroy(int id);
 	}

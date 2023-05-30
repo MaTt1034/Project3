@@ -1,36 +1,26 @@
 ﻿using System;
+using Project3.Models;
+using Project3.Controllers;
+
 namespace Project3.Views
 {
-	public class ProductsView : IView
-	{
-		public ProductsView()
-		{
-		}
-
-		public void IndexPage()
-		{
-			// Shows all products in the database
-			// Also redirects to ShowPage(id of the product)
-			// Also redirects to NewPage()
+    public class ProductsView
+    {
+        public ProductsView()
+        {
         }
 
-		public void ShowPage()
-		{
-			// Shows the individual record
-			// Also redirects to EditPage()
-			// Also destroys the record (from controller)
-		}
-
-		public void NewPage()
-		{
-			// Contains input fields
-			// Creates a new product, adds in the DB
-		}
-
-        public void EditPage()
+        public void Index(List<Product> products)
         {
-            // Contains input fields
-            // Edits a product, updates DB
+        }
+
+        public void ShowSingle(Product product)
+        {
+            Console.WriteLine("Product Details:");
+            Console.WriteLine($"Name: {product.Name}");
+            Console.WriteLine($"Description: {product.Description}");
+            Console.WriteLine($"Price: {product.Price}");
+            Console.WriteLine();
         }
     }
 }

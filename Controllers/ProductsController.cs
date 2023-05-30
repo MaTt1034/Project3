@@ -5,41 +5,47 @@ using Project3.Database;
 
 namespace Project3.Controllers
 {
-	public class ProductsController : IController
-	{
-        private Product _model;
+	public class ProductsController
+    {
         private ProductsView _view;
-        private List<Product> _products;
+        public List<Product> Products { get; set; }
 
-		public ProductsController()
-		{
-            _model = new Product();
-            _view = new ProductsView();
-            _products = new List<Product>();
-		}
-
-        public void Index()
+        public ProductsController()
         {
-            _view.IndexPage(_products);
+            _view = new ProductsView();
+            Products = new List<Product>();
         }
 
         public void Show(int id)
         {
+            Product product = SetProduct(id);
+
+            _view.ShowSingle(product);
         }
 
-        public void Create()
+        public void Create(int id, string name, string description, double price)
         {
-            Product newProduct = new Product();
+            Product newProduct = new Product(id, name, description, price);
 
-            Show(newProduct.id);
+            Products.Add(newProduct);
+
+            Show(newProduct.ID);
         }
 
-        public void Update(int id)
+        public void Update(int id, string? name = null, double price = -1)
         {
+            Product product = SetProduct(id);
+
+            if (name != null)
+                product.Name = name;
+
+            if (price != -1)
+                product.Price = price;
         }
 
-        public void Destroy(int id)
+        private Product SetProduct(int id)
         {
+            return Products.FirstOrDefault(p => p.ID == id);
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using Project3.Controllers;
+using Project3.Models;
+using Project3.Views;
 
 namespace Project3
 {
@@ -7,9 +9,26 @@ namespace Project3
     {
         static void Main(string[] args)
         {
-            IController productsController = new ProductsController();
+            // Create Model
+            Product product = new Product(1, "bananas", "yum delicious", 3.33);
 
-            productsController.Index();
+            // Create View
+            ProductsView productView = new ProductsView();
+
+            // Create Controller
+            ProductsController productsController = new ProductsController();
+            productsController.Products.Add(product);
+
+            // Display product details
+            productsController.Show(1);
+
+            // Set product details
+            productsController.Update(1, "Product 1", 19.99);
+
+            // Display product details
+            productsController.Show(1);
+
+            Console.ReadLine();
         }
     }
 }
