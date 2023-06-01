@@ -10,6 +10,8 @@ namespace Project3
     internal class Master
     {
       public static ProductController ProductController = new ProductController();
-      public static DepartmentController DepartmentController = new DepartmentController();
+        public static DepartmentController DepartmentController = new DepartmentController();
+        public static UserController UserController = new UserController();
+        public static User User = null;
     }
 }

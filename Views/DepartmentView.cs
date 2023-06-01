@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Project3.Views
 {
-    internal class DepartmentView
+    internal class DepartmentView : IView<Department>
     {
 
         public int ID { get; set; }
@@ -53,5 +53,9 @@ namespace Project3.Views
             Description = "";
         }
 
+        public void IndexPage()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -3,15 +3,15 @@ using Project3.Models;
 
 namespace Project3.Views
 {
-    public class ProductsView
+    public class ProductView : IView<Product>
     {
         public int ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public double Price { get; set; }
-        public Department Department { get; set; }
+        public Department? Department { get; set; }
 
-        public ProductsView()
+        public ProductView()
         {
         }
 
@@ -51,6 +51,11 @@ namespace Project3.Views
             Name = "";
             Description = "";
             Price = 0;
+        }
+
+        public void IndexPage()
+        {
+            throw new NotImplementedException();
         }
     }
 }

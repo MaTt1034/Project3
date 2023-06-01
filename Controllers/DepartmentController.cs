@@ -9,27 +9,16 @@ using System.Threading.Tasks;
 
 namespace Project3.Controllers
 {
-    public class DepartmentController
+    public class DepartmentController : IController<Department, int>
     {
         private DepartmentView view;
 
-        private List<Department> Departments = new List<Department>();
+        protected List<Department> List;
 
-        public IReadOnlyCollection<Department> GetDepartments()
+        public void Add(Department department)
         {
-            return Departments;
-        }
-
-        public void AddDepartment(Department department)
-        {
-            if (Departments.Any(x => x.Id == department.Id)) throw new InvalidOperationException();
-            Departments.Add(department);
-        }
-        public bool DropDepartment(Department department)
-        {
-            if (Master.ProductController.GetProducts().Any(x => x.Department == department))
-                throw new InvalidOperationException("Remove products from inventory before deleting department.");
-            return Departments.Remove(department);
+            if (List.Any(x => x.Id == department.Id)) throw new InvalidOperationException();
+            List.Add(department);
         }
 
         public Product[] GetContents(Department department)
@@ -40,17 +29,17 @@ namespace Project3.Controllers
         public DepartmentController()
         {
             view = new DepartmentView();
-            Departments = new List<Department>();
+            List = new List<Department>();
         }
 
         public void Show(int id)
         {
-            Department department = SetDepartment(id);
-            Show(department);
+            Department item = Set(id);
+            Show(item);
         }
+
         public void Show(Department department)
         {
-
             view.ShowSingle(department);
         }
 
@@ -59,22 +48,43 @@ namespace Project3.Controllers
         {
             view.DisplayNewForm();
             Department newDepartment = new Department(view.ID, view.Name, view.Description);
-            AddDepartment(newDepartment);
+            Add(newDepartment);
             view.ClearValues();
         }
-        public void Update(int id, string? name = null, string? desc = null)
+        public void Update(Department temp)
         {
-            Department dep = SetDepartment(id);
-            if (dep == null) throw new NullReferenceException();
+            Department dep = Set(temp.Id);
 
-            dep.Name = name ?? dep.Name;
+            dep.Name = temp.Name ?? dep.Name;
 
-            dep.Description = desc ?? dep.Description;
+            dep.Description = temp.Description ?? dep.Description;
         }
 
-        private Department SetDepartment(int id)
+        private Department Set(int id)
         {
-            return Departments.FirstOrDefault(p => p.Id == id);
+            return List.FirstOrDefault(p => p.Id == id);
+        }
+
+        public void Index()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Destroy(int id)
+        {
+            return Destroy(List.Find(x => x.Id == id));
+        }
+
+        public bool Destroy(Department item)
+        {
+            if (Master.ProductController.GetProducts().Any(x => x.Department == item))
+                throw new InvalidOperationException("Remove products from inventory before deleting department.");
+            return List.Remove(item);
+        }
+
+        public IReadOnlyCollection<Department> GetList()
+        {
+            return List;
         }
     }
 }

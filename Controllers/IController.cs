@@ -3,16 +3,26 @@ using Project3.Models;
 
 namespace Project3.Controllers
 {
-	public interface IController
-	{
-		public void Index();
+    public interface IController<T,TIdentifier>
+    {
 
-		public void Show(int id);
+        public IReadOnlyCollection<T> GetList();
+        
 
-		public void Create();
+        public void Index();
 
-		public void Update();
+        public void Show(T item);
 
-		public void Destroy(int id);
-	}
+        public void Show(TIdentifier id);
+
+        public void Create();
+
+        public void Add(T item);
+
+        public void Update(T temp);
+
+        public bool Destroy(TIdentifier id);
+        public bool Destroy(T item);
+
+    }
 }

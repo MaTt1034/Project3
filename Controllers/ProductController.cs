@@ -5,44 +5,40 @@ using Project3.Database;
 
 namespace Project3.Controllers
 {
-    public class ProductController
+    public class ProductController : IController<Product,int>
     {
-        private ProductsView view;
-        List<Product> Products { get; set; }
+        private ProductView view;
+        List<Product> List;
 
         public IReadOnlyCollection<Product> GetProducts()
         {
-            return Products;
+            return List;
         }
 
-        public void AddProduct(Product product)
+        public void Add(Product item)
         {
-            if (!Master.DepartmentController.GetDepartments().Contains(product.Department))
+            if (!Master.DepartmentController.GetList().Contains(item.Department))
                 throw new InvalidOperationException("Department does not exist. Add to list of departments first.");
-            if (Products.Any(x => x.Id == product.Id)) throw new InvalidOperationException();
+            if (List.Any(x => x.Id == item.Id)) throw new InvalidOperationException();
 
-            Products.Add(product);
-        }
-        public bool DropProduct(Product product)
-        {
-            return Products.Remove(product);
+            List.Add(item);
         }
 
         public ProductController()
         {
-            view = new ProductsView();
-            Products = new List<Product>();
+            view = new ProductView();
+            List = new List<Product>();
         }
 
         public void Show(int id)
         {
-            Product product = SetProduct(id);
+            Product product = Set(id);
             Show(product);
         }
-        public void Show(Product product)
+        public void Show(Product item)
         {
 
-            view.ShowSingle(product);
+            view.ShowSingle(item);
         }
 
 
@@ -51,28 +47,51 @@ namespace Project3.Controllers
             view.DisplayNewForm();
 
             view.Department = department;
-            Product newProduct = new Product(view.ID, view.Name, view.Description, view.Price, department);
+            Product newProduct = new Product(view.ID, view.Name, view.Description, view.Price, view.Department);
 
-            Products.Add(newProduct);
+            List.Add(newProduct);
             view.ClearValues();
         }
 
-        public void Update(int id, string? name = null, string desc = null, double? price = null)
+        public void Update(Product temp)
         {
-            Product product = SetProduct(id);
+            Product product = Set(temp.Id);
 
-            if (product == null) throw new NullReferenceException();
+            product.Name = temp.Name ?? product.Name;
 
-            product.Name = name ?? product.Name;
+            product.Description = temp.Description ?? product.Description;
 
-            product.Description = desc ?? product.Description;
-
-            product.Price = price == null ? product.Price : (double)price;
+            product.Price = temp.Price == null ? product.Price : (double)temp.Price;
         }
 
-        private Product SetProduct(int id)
+        private Product Set(int id)
         {
-            return Products.FirstOrDefault(p => p.Id == id);
+            return List.FirstOrDefault(p => p.Id == id);
+        }
+
+        public void Index()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Create()
+        {
+            Create(null);
+        }
+
+        public bool Destroy(int id)
+        {
+            return Destroy(List.Find(x => x.Id == id));
+        }
+
+        public bool Destroy(Product item)
+        {
+            return List.Remove(item);
+        }
+
+        public IReadOnlyCollection<Product> GetList()
+        {
+            return (IReadOnlyCollection<Product>)List;
         }
     }
 }
