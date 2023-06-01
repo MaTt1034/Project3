@@ -40,7 +40,7 @@ namespace Project3.Views
             Console.WriteLine("Product Details:");
             Console.WriteLine($"Name: {product.Name}");
             Console.WriteLine($"Description: {product.Description}");
-            Console.WriteLine($"Price: {product.Price}");
+            Console.WriteLine($"Price: {product.Price:0.00}");
             Console.WriteLine();
         }
 
