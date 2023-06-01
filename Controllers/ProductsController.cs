@@ -19,9 +19,14 @@ namespace Project3.Controllers
         public void Show(int id)
         {
             Product product = SetProduct(id);
+            Show(product);
+        }
+        public void Show(Product product)
+        {
 
             _view.ShowSingle(product);
         }
+
 
         public void Create()
         {
