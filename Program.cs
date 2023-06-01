@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using Project3.Controllers;
 using Project3.Models;
 using Project3.Views;
@@ -8,7 +9,6 @@ namespace Project3
 {
     public class Program
     {
-        static ProductsController productsController = new ProductsController();
 
 
         static bool confirmAction(string msg)
@@ -25,20 +25,21 @@ namespace Project3
 
 
             // Create Model
-            Product product = new Product(1, "bananas", "yum delicious", 3.33);
+            Department department = new Department(1, "Fresh Food");
+            Product product = new Product(1, "bananas", "yum delicious", 3.33, department);
 
             // Create View
             ProductsView productView = new ProductsView();
 
             // Create Controller
-
-            productsController.Products.Add(product);
+            Master.DepartmentController.AddDepartment(department);
+            Master.ProductController.AddProduct(product);
 
             // Display product details
-            productsController.Show(1);
+            Master.ProductController.Show(1);
 
             // Set product details
-            productsController.Update(1, "Product 1", 3.9);
+            Master.ProductController.Update(1, "Product 1", "aaaa", 3.9);
 
             //// Display product details
             //productsController.Show(1);
@@ -95,24 +96,32 @@ namespace Project3
                 Console.ForegroundColor = ConsoleColor.Gray;
 
                 //Get department
-                var deps = new string[] { "<-- BACK", " +  ADD...", "<ALL>", "test, not actual department right now" };
+                var deps = Master.DepartmentController.GetDepartments().Select(x => $"{x.Name} -- {x.Id}").Prepend(" 8  ALL").Prepend(" +  ADD...").Prepend("<-- BACK").ToArray();
                 var dep = ConsoleMenu.Show("VIEW/EDIT ITEMS > DEPARTMENT", deps);
-                if (dep == 0) return;
-                if (dep == 1) //Create department
+                var getProds = Master.ProductController.GetProducts().ToArray();
+                Department prodDepartment = null;
+                switch (dep)
                 {
-                    //...
-                    throw new NotImplementedException();
-
-                    continue;
+                    case 0:
+                        return;
+                    case 1:
+                        Master.DepartmentController.Create();
+                        continue;
+                    case 2:
+                        break;
+                    default:
+                        int prodId = int.Parse(deps[dep].Split("--")[1].Trim());
+                        prodDepartment = Master.DepartmentController.GetDepartments().Where(x => x.Id == prodId).First();
+                        getProds = getProds.Where(x=>x.Department == prodDepartment).ToArray();
+                        break;
                 }
-
 
                 while (true)
                 {
                     Console.BackgroundColor = ConsoleColor.Black;
                     Console.ForegroundColor = ConsoleColor.Gray;
                     //Get product
-                    var prods = productsController.Products.Select(x => $"{x.Name} -- ${x.Price:0.00} -- {x.ID}").Prepend(" +  ADD...").Prepend("<-- BACK").ToArray(); // List the products (name price id), prepend Add, prepend Back (note prepend reverse order!)
+                    var prods = getProds.Select(x => $"{x.Name} -- ${x.Price:0.00} -- {x.Id}").Prepend(" +  ADD...").Prepend("<-- BACK").ToArray(); // List the products (name price id), prepend Add, prepend Back (note prepend reverse order!)
 
                     var prod = ConsoleMenu.Show($"VIEW/EDIT ITEMS > DEPARTMENT > {deps[dep]} > PRODUCT", prods);// List the options
                     if (prod == 0)//Back
@@ -121,7 +130,7 @@ namespace Project3
                     }
                     if (prod == 1)//Create product
                     {
-                        productsController.Create();
+                        Master.ProductController.Create(prodDepartment);
 
                         continue;
                     }
@@ -130,19 +139,19 @@ namespace Project3
 
                     //Select product
                     var prodNo = int.Parse(prods[prod].Split("--")[2].Trim());
-                    var product = productsController.Products.Find(x => x.ID == prodNo);
+                    var product = Master.ProductController.GetProducts().Where(x => x.Id == prodNo).First();
 
                     //Show product
                     ConsoleExt.Separator();
-                    productsController.Show(product);
+                    Master.ProductController.Show(product);
                   
                     //Show options
-                    var action = ConsoleMenu.ShowInline("ACTION?", " <-- DONE", "[]12 STOCKTAKE", "\\... EDIT", "[][] DUPLICATE", "[X]  DROP!");
+                    var action = ConsoleMenu.ShowInline("ACTION?", " <-- DONE", "[]12 STOCKTAKE", "\\... EDIT", "[X]  DROP!");
                     switch (action)
                     {
                         case 0:
                             break;
-                        case 4:
+                        case 3:
                             if (confirmAction("Delete??"))
                             {
                                 //...

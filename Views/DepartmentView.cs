@@ -1,17 +1,20 @@
-﻿using System;
-using Project3.Models;
+﻿using Project3.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Project3.Views
 {
-    public class ProductsView
+    internal class DepartmentView
     {
+
         public int ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public double Price { get; set; }
-        public Department Department { get; set; }
 
-        public ProductsView()
+        public DepartmentView()
         {
         }
 
@@ -21,7 +24,7 @@ namespace Project3.Views
 
         public void DisplayNewForm()
         {
-            Console.WriteLine("NEW PRODUCT");
+            Console.WriteLine("NEW DEPARTMENT");
 
             Console.Write("ID: ");
             ID = int.Parse(Console.ReadLine());
@@ -32,16 +35,14 @@ namespace Project3.Views
             Console.Write("Description: ");
             Description = Console.ReadLine();
 
-            Console.Write("Price: ");
-            Price = double.Parse(Console.ReadLine());
+
         }
 
-        public void ShowSingle(Product product)
+        public void ShowSingle(Department department)
         {
             Console.WriteLine("Product Details:");
-            Console.WriteLine($"Name: {product.Name}");
-            Console.WriteLine($"Description: {product.Description}");
-            Console.WriteLine($"Price: {product.Price:0.00}");
+            Console.WriteLine($"Name: {department.Name}");
+            Console.WriteLine($"Description: {department.Description}");
             Console.WriteLine();
         }
 
@@ -50,7 +51,7 @@ namespace Project3.Views
             ID = 0;
             Name = "";
             Description = "";
-            Price = 0;
         }
+
     }
 }
