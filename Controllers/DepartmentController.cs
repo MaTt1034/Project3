@@ -23,7 +23,7 @@ namespace Project3.Controllers
 
         public Product[] GetContents(Department department)
         {
-            return Master.ProductController.GetProducts().Where(x => x.Department == department).ToArray();
+            return Master.ProductController.GetList().Where(x => x.Department == department).ToArray();
         }
 
         public DepartmentController()
@@ -77,7 +77,7 @@ namespace Project3.Controllers
 
         public bool Destroy(Department item)
         {
-            if (Master.ProductController.GetProducts().Any(x => x.Department == item))
+            if (Master.ProductController.GetList().Any(x => x.Department == item))
                 throw new InvalidOperationException("Remove products from inventory before deleting department.");
             return List.Remove(item);
         }

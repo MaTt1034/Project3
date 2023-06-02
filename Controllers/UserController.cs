@@ -25,8 +25,16 @@ namespace Project3.Controllers
 
         public void Create()
         {
+            Create(false);
+        }
+
+        public void Create(bool isAdmin = false)
+        {
             view.DisplayNewForm();
-            User newUser = new Customer(view.UserName, view.Name, view.Email, view.Password);
+            User newUser = isAdmin ?
+                 new Admin(view.UserName, view.Name, view.Email, view.Password)
+                 :
+                  new Customer(view.UserName, view.Name, view.Email, view.Password);
             Add(newUser);
             view.ClearValues();
         }
@@ -48,7 +56,7 @@ namespace Project3.Controllers
 
         public void Show(User item)
         {
-            throw new NotImplementedException();
+            view.ShowSingle(item);
         }
 
         public void Show(string id)

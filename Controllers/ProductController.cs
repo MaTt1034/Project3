@@ -10,11 +10,6 @@ namespace Project3.Controllers
         private ProductView view;
         List<Product> List;
 
-        public IReadOnlyCollection<Product> GetProducts()
-        {
-            return List;
-        }
-
         public void Add(Product item)
         {
             if (!Master.DepartmentController.GetList().Contains(item.Department))
